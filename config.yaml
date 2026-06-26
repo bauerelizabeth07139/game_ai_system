@@ -1,0 +1,93 @@
+# 游戏AI控制系统配置文件
+
+# 全局参数
+global:
+  fps: 10                    # 系统帧率
+  frame_interval_ms: 100     # 每帧间隔(毫秒)
+  short_side: 480            # 截图缩放短边像素
+  buffer_size: 50            # 环形缓冲区大小
+  log_level: INFO            # 日志级别
+  real_input: false          # 是否启用真实键鼠输入
+  window_title: ""           # 游戏窗口标题（空=全屏截图，填入窗口标题则截取该窗口）
+
+# 感知层配置
+perception:
+  # HSV颜色阈值
+  hsv:
+    red_lower_1: [0, 50, 50]
+    red_upper_1: [10, 255, 255]
+    red_lower_2: [170, 50, 50]
+    red_upper_2: [180, 255, 255]
+    green_lower: [35, 50, 50]
+    green_upper: [85, 255, 255]
+
+  # 几何筛选参数
+  geometry:
+    min_area: 50
+    max_area: 2000
+    min_aspect_ratio: 2.0
+    max_aspect_ratio: 6.0
+    y_position_ratio: 0.6
+
+  # OCR配置
+  ocr:
+    enabled: true
+    use_gpu: false
+
+  # 语义标签配置
+  semantic:
+    close_range: 0.3
+
+# 时间缓冲配置
+buffer:
+  buffer_size: 50
+  mlp_history_frames: [0, -2, -6]  # 策略层3个时间点
+  decision_history_frames: [0, -8, -42]  # 决策层3个时间点
+
+# 决策层配置
+decision:
+  api_type: openai            # openai/anthropic/ollama/vllm/deepseek/zhipu/qwen
+  api_base: http://localhost:11434/v1  # API地址（可填提供方名称自动替换）
+  api_key: ""                 # API密钥
+  model_name: gpt-4o-mini     # 模型名称
+  timeout: 10                 # 超时时间(秒)
+  max_retries: 2              # 最大重试次数
+  interval_frames: 50         # 调用间隔(帧)
+  history_frames: [0, -4, -12, -24, -40]  # 历史帧偏移
+  simulate_on_failure: true   # API失败时使用模拟模式
+  game_type: unknown           # 游戏类型: unknown/auto/fps/fighting/moba/open_world
+
+# 策略层配置
+strategy:
+  state_dim: 141              # 状态向量维度
+  time_points: 3              # 时间点数量
+  embed_dim: 32               # 指令嵌入维度
+  input_dim: 456              # 输入维度 (141*3+32+1)
+  output_dim: 40              # 输出维度 (4连续+36按键)
+
+# 执行层配置
+execution:
+  # PID控制器参数
+  pid:
+    Kp: 1.2
+    Ki: 0.01
+    Kd: 0.1
+
+  # 噪声注入参数
+  noise:
+    frequency: 8.0            # 频率(Hz)
+    amplitude: 0.02           # 振幅
+
+  # 键鼠模拟
+  mouse_sensitivity: 100      # 鼠标灵敏度(像素缩放因子)
+  button_threshold: 0.5       # 按键触发阈值
+
+# 内置模型提供方URL（可在decision.api_base中使用名称）
+providers:
+  openai: https://api.openai.com/v1
+  anthropic: https://api.anthropic.com/v1
+  ollama: http://localhost:11434/v1
+  vllm: http://localhost:8000/v1
+  deepseek: https://api.deepseek.com/v1
+  zhipu: https://open.bigmodel.cn/api/paas/v4
+  qwen: https://dashscope.aliyuncs.com/compatible-mode/v1

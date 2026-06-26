@@ -1,0 +1,12 @@
+# 游戏AI控制系统依赖
+opencv-python>=4.8.0
+numpy>=1.24.0
+torch>=2.0.0
+pyyaml>=6.0
+requests>=2.31.0
+pynput>=1.7.6
+mss>=9.0.0
+
+# PaddleOCR（可选，用于OCR功能）
+# paddlepaddle>=2.5.0
+# paddleocr>=2.7.0
