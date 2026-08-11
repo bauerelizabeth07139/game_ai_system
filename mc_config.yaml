@@ -1,0 +1,72 @@
+minecraft:
+  host: localhost
+  port: 25575
+
+  policy:
+    state_dim: 141
+    time_points: 3
+    embed_dim: 32
+    input_dim: 456
+    output_dim: 40
+    hidden_sizes: [512, 1024, 512]
+
+  training:
+    episodes: 5000
+    save_interval: 100
+    log_interval: 10
+    learning_rate: 0.0003
+    gamma: 0.99
+    gae_lambda: 0.95
+    clip_epsilon: 0.2
+    batch_size: 64
+    n_epochs: 10
+    hidden_dim: 256
+    max_steps_per_episode: 1000
+
+  curriculum:
+    - goal: GATHER_WOOD
+      episodes: 500
+      reward_threshold: 10.0
+    - goal: CRAFT_TOOLS
+      episodes: 500
+      reward_threshold: 15.0
+    - goal: MINE_STONE
+      episodes: 500
+      reward_threshold: 20.0
+    - goal: MINE_IRON
+      episodes: 800
+      reward_threshold: 25.0
+    - goal: MINE_DIAMOND
+      episodes: 1000
+      reward_threshold: 30.0
+    - goal: KILL_ENDER_DRAGON
+      episodes: 2000
+      reward_threshold: 100.0
+
+  milestones:
+    has_wood: 5.0
+    has_stone_tools: 10.0
+    has_iron: 15.0
+    has_furnace: 5.0
+    level_5: 8.0
+    has_diamond: 20.0
+    in_nether: 30.0
+    near_fortress: 10.0
+    has_blaze_rod: 15.0
+    near_end_portal: 25.0
+    in_end: 50.0
+    dragon_defeated: 100.0
+
+  bot:
+    fps: 10
+    llm_interval: 50
+    reconnect_attempts: 3
+
+  llm:
+    enabled: false
+    api_type: openai
+    api_base: http://localhost:11434/v1
+    api_key: ""
+    model_name: gpt-4o-mini
+    timeout: 10
+    max_retries: 2

@@ -1,0 +1,35 @@
+{
+    "schemaVersion": 1,
+    "id": "minecraftaimod",
+    "version": "${version}",
+    "name": "Minecraft AI Player Mod",
+    "description": "Adds an AI-controlled player that can autonomously play and beat Minecraft using reinforcement learning and behavior trees.",
+    "authors": ["GameAISystem"],
+    "contact": {
+        "homepage": "https://github.com/bauerelizabeth07139/game_ai_system",
+        "sources": "https://github.com/bauerelizabeth07139/game_ai_system"
+    },
+    "license": "MIT",
+    "icon": "assets/minecraftaimod/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "com.gameaisystem.minecraftmod.MinecraftAIMod"
+        ],
+        "client": [
+            "com.gameaisystem.minecraftmod.MinecraftAIModClient"
+        ]
+    },
+    "mixins": [
+        "minecraftaimod.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.15.0",
+        "minecraft": "~1.20.4",
+        "java": ">=17",
+        "fabric-api": ">=0.91.0"
+    },
+    "suggests": {
+        "another-mod": "*"
+    }
+}

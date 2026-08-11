@@ -32,5 +32,7 @@ Thumbs.db
 
 # Model weights (if any)
 *.pth
-*.pt
 *.onnx
+
+# But keep pre-trained checkpoints
+!checkpoints/*.pt
