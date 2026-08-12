@@ -16,6 +16,14 @@ import cv2
 import numpy as np
 import yaml
 
+# 修复Windows控制台中文乱码
+if sys.platform == 'win32':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+        sys.stderr.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
 # 项目路径（兼容PyInstaller打包）
 if getattr(sys, 'frozen', False):
     # PyInstaller打包后，exe所在目录
@@ -509,7 +517,7 @@ class GameAISystem:
         action_summary = self.hal.format_action_summary(action)
 
         # 获取通知
-        notifications = buffer_entry.get('notifications', '')
+        notifications = perception.get('notifications', '')
         notif_short = ''
         if 'CRIT' in notifications:
             notif_short = ' [!]'

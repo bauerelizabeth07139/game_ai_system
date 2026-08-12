@@ -111,7 +111,7 @@ class MLPModel(nn.Module):
         """前向传播
 
         Args:
-            state_vectors: shape (batch, 384) - 3个时间点的状态向量拼接
+            state_vectors: shape (batch, 423) - 3个时间点的状态向量拼接
             strategy_idx: shape (batch,) - 策略索引
             game_type: shape (batch, 1) - 游戏类型标量 [0-4]
 
@@ -122,7 +122,7 @@ class MLPModel(nn.Module):
         embed = self.strategy_embedding(strategy_idx)  # (batch, 32)
 
         # 拼接输入
-        x = torch.cat([state_vectors, embed, game_type], dim=-1)  # (batch, 417)
+        x = torch.cat([state_vectors, embed, game_type], dim=-1)  # (batch, 456)
 
         # 前向传播
         output = self.network(x)  # (batch, 40) 全部Sigmoid
